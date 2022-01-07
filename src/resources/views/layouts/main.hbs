@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {{!-- We already use app.use(express.static(path.join(__dirname, "public")));
+        so we can access anything under public/--}}
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+    <div class="app">
+        {{> header}}
+
+        <div class="container">
+            {{!-- all pages in views/ are imported here --}}
+            {{{body}}}
+        </div>
+
+        {{> footer}}
+    </div>
+</body>
+</html>

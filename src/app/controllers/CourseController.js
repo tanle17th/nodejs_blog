@@ -12,6 +12,21 @@ class CourseController {
       })
       .catch(next)
   }
+
+  // [GET] /courses/create
+  create(req, res, next) {
+    res.render('courses/create')
+  }
+
+    // [POST] /courses/store
+    store(req, res, next) {
+      const formData = req.body
+      formData.image = `https://cdn.fullstack.edu.vn/f8-production/courses/6.png`
+      const course = new Course(formData)
+      course.save()
+        .then(() => res.redirect('/'))
+        .catch(next)
+    }
 }
 
 module.exports = new CourseController()

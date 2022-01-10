@@ -1,15 +1,19 @@
-const newsRouter = require("./news");
-const siteRouter = require("./site");
+const newsRouter = require('./news')
+const siteRouter = require('./site')
+const courseRouter = require('./course')
 
 function route(app) {
   // News Router:
   // app.use for /news path
   // second param receives newsRouter which configs all child paths
   // of /news
-  app.use("/news", newsRouter);
+  app.use('/news', newsRouter)
+
+  // app.use for /courses path
+  app.use('/courses', courseRouter)
 
   // Site Router (HOME, SEARCH):
-  app.use("/", siteRouter);
+  app.use('/', siteRouter)
 }
 
-module.exports = route;
+module.exports = route

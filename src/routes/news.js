@@ -1,12 +1,14 @@
-var express = require("express");
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 
-const newsController = require("../app/controllers/NewsController");
+const newsController = require('../app/controllers/NewsController')
 
-// second child of /news
-router.use("/:slug", newsController.show);
-// main child of /news
-// call index function of NewsController:
-router.use("/", newsController.index);
+// router.get is only for subpaths
 
-module.exports = router;
+// subpath news/:slug returns show()
+router.get('/:slug', newsController.show)
+// main subpath: /news/
+// returns index()
+router.get('/', newsController.index)
+
+module.exports = router

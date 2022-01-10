@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon --inspect src/index.js",
         "watch": "node-sass --watch src/resources/scss/ --output src/public/css/",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "beautiful": "prettier --trailing-comma all --tab-width 2 --semi false --single-quote --write \"src/**/*.{js,json,scss}\""
     },
     "repository": {
         "type": "git",
@@ -20,11 +21,15 @@
     "homepage": "https://github.com/tanle17th/nodejs_blog#readme",
     "dependencies": {
         "express": "^4.17.2",
-        "express-handlebars": "^6.0.2"
+        "express-handlebars": "^6.0.2",
+        "mongoose": "^6.1.5"
     },
     "devDependencies": {
+        "husky": "^7.0.4",
+        "lint-staged": "^12.1.7",
         "morgan": "^1.10.0",
         "node-sass": "^7.0.1",
-        "nodemon": "^2.0.15"
+        "nodemon": "^2.0.15",
+        "prettier": "2.5.1"
     }
 }

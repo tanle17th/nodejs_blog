@@ -1,11 +1,13 @@
-var express = require("express");
-var router = express.Router();
+var express = require('express')
+var router = express.Router()
 
-const siteController = require("../app/controllers/SiteController");
+const siteController = require('../app/controllers/SiteController')
 
-// search router:
-router.use("/search", siteController.search);
-// home router:
-router.use("/", siteController.index);
+// router.get is only for subpaths
 
-module.exports = router;
+// subpath /search returns search()
+router.get('/search', siteController.search)
+// subpath / returns index() (HOME)
+router.get('/', siteController.index)
+
+module.exports = router

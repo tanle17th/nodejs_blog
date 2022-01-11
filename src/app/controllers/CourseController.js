@@ -25,7 +25,7 @@ class CourseController {
     const course = new Course(formData)
     course
       .save()
-      .then(() => res.redirect('/'))
+      .then(() => res.redirect('/me/stored/courses'))
       .catch(next)
   }
 
@@ -47,8 +47,26 @@ class CourseController {
 
   // [DELETE] /courses/:id
   delete(req, res, next) {
+    // override deleteOne() of mongoose by delete() of mongoose-delete
+    Course.delete({ _id: req.params.id })
+      // redirect to previous route (/me/stored/courses)
+      .then(() => res.redirect('back'))
+      .catch(next)
+  }
+
+  // [DELETE] /courses/:id/force
+  destroy(req, res, next) {
+    // override deleteOne() of mongoose by delete() of mongoose-delete
     Course.deleteOne({ _id: req.params.id })
       // redirect to previous route (/me/stored/courses)
+      .then(() => res.redirect('back'))
+      .catch(next)
+  }
+
+  // [PATCH] /courses/:id/restore
+  restore(req, res, next) {
+    Course.restore({ _id: req.params.id })
+      // redirect to previous route (/me/trash/courses)
       .then(() => res.redirect('back'))
       .catch(next)
   }

@@ -1,8 +1,10 @@
+// Mongoose - Schema
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+// Slug
 const slug = require('mongoose-slug-generator')
-
-mongoose.plugin(slug)
+// mongoose-delete (soft delete)
+const mongooseDelete = require('mongoose-delete')
 
 const ObjectId = Schema.ObjectId
 
@@ -28,6 +30,10 @@ const Course = new Schema(
     timestamps: true,
   },
 )
+
+// Add plugins
+mongoose.plugin(slug)
+Course.plugin(mongooseDelete, { deletedAt: true, overrideMethods: 'all' })
 
 // mongoose lowercases Schema name -> course
 // and add s -> courses

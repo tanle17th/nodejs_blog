@@ -1,7 +1,9 @@
 <div class='mt-4'>
-  <h3>Upload your course</h3>
+  <h3>Edit {{course.name}}</h3>
 
-  <form class='mt-4' method='POST' action='/courses/store'>
+  {{! use express.method-override library to override POST by PUT }}
+  {{! Header still sends POST, but server receives PUT }}
+  <form class='mt-4' method='POST' action='/courses/{{course._id}}?_method=PUT'>
     <div class='form-group'>
       <label for='name'>Name</label>
       <input
@@ -9,6 +11,7 @@
         class='form-control'
         id='name'
         name='name'
+        value='{{course.name}}'
         placeholder='Enter name...'
       />
     </div>
@@ -21,7 +24,7 @@
         name='description'
         rows='4'
         placeholder='Enter description...'
-      ></textarea>
+      >{{course.description}}</textarea>
     </div>
 
     <div class='form-group'>
@@ -31,9 +34,10 @@
         class='form-control'
         id='videoId'
         name='videoId'
-        placeholder='Enter video id...'
+        value='{{course.videoId}}'
+        placeholder='Enter video ID...'
       />
     </div>
-    <button type='submit' class='btn btn-primary'>Add</button>
+    <button type='submit' class='btn btn-primary'>Save</button>
   </form>
 </div>

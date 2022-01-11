@@ -6,6 +6,8 @@ const morgan = require('morgan')
 const { engine } = require('express-handlebars')
 // Path is default library of NodeJS
 const path = require('path')
+// Get method-override
+const methodOverride = require('method-override')
 // initialize a new express() object:
 const app = express()
 const port = 3000
@@ -27,9 +29,13 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.engine(
   'hbs',
   // engine receives an object
-  // extname: to change the extension name for views
+  // config: to change the extension name for views
   engine({
     extname: '.hbs',
+    // express-handlebars function to start index at template engine at 1
+    helpers: {
+      sum: (a, b) => a + b,
+    },
   }),
 )
 app.set('view engine', 'hbs')
@@ -42,6 +48,9 @@ app.use(
   }),
 ) // Form sends normal HTML
 app.use(express.json()) // XMLHttpRequest, Fetch, axios sends json
+
+// override with POST having ?_method=DELETE
+app.use(methodOverride('_method'))
 
 // Routes init (all routes)
 route(app)

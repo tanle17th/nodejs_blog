@@ -70,6 +70,20 @@ class CourseController {
       .then(() => res.redirect('back'))
       .catch(next)
   }
+
+  // [POST] /courses/handle-dropdown-action
+  handleDropdownAction(req, res, next) {
+    switch (req.body.action) {
+      case 'remove':
+        // Remove all courses wherein ARRAY: courseIds
+        Course.delete({ _id: { $in: req.body.courseIds } })
+          .then(() => res.redirect('back'))
+          .catch(next)
+        break
+      default:
+        res.json({ message: 'Action invalid' })
+    }
+  }
 }
 
 module.exports = new CourseController()

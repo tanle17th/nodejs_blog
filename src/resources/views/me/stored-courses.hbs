@@ -1,10 +1,29 @@
-<div class='mt-4'>
+<form class='mt-4' method='POST' name='container-form' action='/courses/handle-dropdown-action'>
   <table class='table mt-4'>
     <div>
       <h3>My Courses</h3>
+
+      <div class="input-group mb-3 mt-4">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <input type="checkbox" id="checkbox-all">
+          </div>
+        </div>
+
+        <select id="dropdown-action" class="checkbox-select-all-options custom-select" name="action" required>
+          <option value=''>Choose action...</option>
+          <option value="remove">Remove</option>
+        </select>
+
+        <div class="input-group-append">
+          <button id="apply-btn" type="button" class="btn btn-primary disabled">Apply</button>
+        </div>
+      </div>
+
     </div>
     <thead>
       <tr>
+        <th scope='col'></th>
         <th scope='col'>#</th>
         <th scope='col'>Course</th>
         <th scope='col'>Video ID</th>
@@ -15,6 +34,12 @@
     <tbody>
       {{#each courses}}{{! start loop }}
         <tr>
+          <td>
+          <div class="form-check">
+            {{!-- When click on apply, name="courseIds[]" & value="{{this._id}}" will be sent to Form Data --}}
+            <input type="checkbox" class='form-check-input' name="courseIds[]" value="{{this._id}}">
+          </div>
+          </td>
           <th scope='row'>{{sum @index 1}}</th>
           <td>{{this.name}}</td>
           <td>{{this.videoId}}</td>
@@ -44,7 +69,7 @@
       {{/each}}
     </tbody>
   </table>
-</div>
+</form>
 
 {{! Confirm delete modal }}
 <div
@@ -90,6 +115,7 @@ multiple remove buttons --}}
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
+    /******************* DEAL WITH REMOVING COURSES *****************/
     let courseId
     // get delete-course-form DOM object:
     let deleteForm = document.forms['delete-course-form']
@@ -106,5 +132,53 @@ multiple remove buttons --}}
       deleteForm.action = `/courses/${courseId}?_method=DELETE`
       deleteForm.submit()
     }
+
+    /****************** "Select all" with checkbox *****************/
+    let checkboxAll = $('#checkbox-all')
+    let courseItemCheckbox = $('input[name="courseIds[]"]')
+    let applyBtn = $('#apply-btn')
+    let containerForm = document.forms['container-form']
+    let dropdownAction = $('#dropdown-action')
+    
+    // Checkbox all changed:
+    checkboxAll.change(function() {
+      let isCheckedAll = $(this).prop('checked') // checked property of JQuery
+      courseItemCheckbox.prop('checked', isCheckedAll)
+      enableApplyBtn()
+    })
+
+    // Course item checkbox changed:
+    courseItemCheckbox.change(function() {
+      // we compare length of all checkbox with checkbox already checked
+      // to see if they are equal.
+      // if yes, isCheckedAll = true
+      // if no, isCheckedAll = false
+      let isCheckedAll = courseItemCheckbox.length === $('input[name="courseIds[]"]:checked').length
+      checkboxAll.prop('checked', isCheckedAll)
+      enableApplyBtn()
+    })
+
+    // Enable Apply button:
+    function enableApplyBtn() {
+      return $('input[name="courseIds[]"]:checked').length > 0
+      ? applyBtn.removeClass('disabled') : applyBtn.addClass('disabled')
+    }
+
+    // Disable clicking Apply button when it is disabled:
+    applyBtn.click(function(e) {
+      e.preventDefault()
+
+      let isSubmittable = !$(this).hasClass('disabled')
+      if (isSubmittable) {
+        if (dropdownAction.val() == '') {
+          alert("Please select an option!");
+        } else {
+          // click on apply to submit containerForm:
+          containerForm.submit()
+        }
+      }
+    })
+
+    // Validate that dropdownAction is selected:
   })
 </script>

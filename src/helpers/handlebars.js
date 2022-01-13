@@ -11,9 +11,9 @@ module.exports = {
 
     // icon always match type of URL (sort.type)
     const icons = {
-      default: 'oi oi-elevator',
-      asc: 'oi oi-sort-ascending',
-      desc: 'oi oi-sort-descending',
+      default: 'fa fa-sort',
+      asc: 'fa fa-sort-amount-asc',
+      desc: 'fa fa-sort-amount-desc',
     }
 
     // type in <a> always opposite type of URL (sort.type)
@@ -36,7 +36,7 @@ module.exports = {
     )
     const output = `
     <a href="${href}">
-      <span class="${icon}"></span>
+      <i class="${icon}" aria-hidden="true"></i>
     </a>`
 
     return new handleBars.SafeString(output)

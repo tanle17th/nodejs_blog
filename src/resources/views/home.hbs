@@ -2,7 +2,7 @@
   <div class='row'>
 
     {{#each courses}}{{! start loop }}
-      <div class='col-sm-6 col-lg-4'>
+      <div class='col-lg-4 d-flex'>
         <div class='card card-course-item'>
           <a href='/courses/{{this.slug}}'>
             <img
@@ -11,12 +11,13 @@
               alt='{{this.name}}'
             />
           </a>
-          <div class='card-body'>
+          <div class='card-body d-flex flex-column'>
             <a href='/courses/{{this.slug}}'>
               <h5 class='card-title'>{{this.name}}</h5>
             </a>
             <p class='card-text'>{{this.description}}</p>
-            <a href='#' class='btn btn-primary'>Buy Course</a>
+            <a href='#' class='btn btn-primary mt-auto' style='width: 8em'>Buy
+              Course</a>
           </div>
         </div>
       </div>

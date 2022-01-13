@@ -20,9 +20,7 @@ class CourseController {
 
   // [POST] /courses/store
   store(req, res, next) {
-    const formData = req.body
-    formData.image = `https://cdn.fullstack.edu.vn/f8-production/courses/6.png`
-    const course = new Course(formData)
+    const course = new Course(req.body)
     course
       .save()
       .then(() => res.redirect('/me/stored/courses'))

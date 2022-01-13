@@ -5,12 +5,12 @@ const Schema = mongoose.Schema
 const slug = require('mongoose-slug-generator')
 // mongoose-delete (soft delete)
 const mongooseDelete = require('mongoose-delete')
+// Auto-Increment
+const autoIncrement = require('mongoose-sequence')(mongoose)
 
-const ObjectId = Schema.ObjectId
-
-const Course = new Schema(
+const CourseSchema = new Schema(
   {
-    id: ObjectId,
+    _id: { type: Number },
     name: {
       type: String,
       maxLength: 255,
@@ -26,16 +26,35 @@ const Course = new Schema(
     videoId: { type: String, required: true },
   },
   {
+    _id: false,
     // from version mongoose 4, this replaces createdAt & updatedAt:
     timestamps: true,
   },
 )
 
+// Custom query helpers:
+// This replaces calling .sort() after calling .find()
+// in MeController.js
+CourseSchema.query.sortHelper = function (req) {
+  // After call find({}) to the dtb,
+  // call sort({ [field]: sortType }) to itself
+  if (req.query.hasOwnProperty('_sort')) {
+    const isValidtype = ['asc', 'desc'].includes(req.query.type)
+
+    // this obj is Course query after calling .find():
+    return this.sort({
+      [req.query.column]: isValidtype ? req.query.type : 'desc',
+    })
+  }
+  return this
+}
+
 // Add plugins
 mongoose.plugin(slug)
-Course.plugin(mongooseDelete, { deletedAt: true, overrideMethods: 'all' })
+CourseSchema.plugin(mongooseDelete, { deletedAt: true, overrideMethods: 'all' })
+CourseSchema.plugin(autoIncrement)
 
-// mongoose lowercases Schema name -> course
+// mongoose lowercases model name ('Course' below) -> course
 // and add s -> courses
 // will match our collection in the database
-module.exports = mongoose.model('Course', Course)
+module.exports = mongoose.model('Course', CourseSchema)

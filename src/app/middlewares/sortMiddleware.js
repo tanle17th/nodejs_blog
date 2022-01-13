@@ -1,4 +1,4 @@
-module.exports = function SortMiddleware(req, res, next) {
+module.exports = function sortMiddleware(req, res, next) {
   // res.locals:
   // is used to pass data to the views rendered during
   // that request / response cycle

@@ -25,9 +25,13 @@
       <tr>
         <th scope='col'></th>
         <th scope='col'>#</th>
-        <th scope='col'>Course</th>
+        <th scope='col'>Course 
+            {{{sortable 'name' _sort}}}
+        </th>
         <th scope='col'>Video ID</th>
-        <th scope='col'>Created At</th>
+        <th scope='col'>Created At
+            {{{sortable 'createdAt' _sort}}}
+        </th>
         <th scope='col'></th>
       </tr>
     </thead>
